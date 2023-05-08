@@ -1,14 +1,12 @@
+from requests import get
 from bs4 import BeautifulSoup
 
-with open("index.html") as file:
-    content = file.read()
+response = get("https://news.ycombinator.com/news")
+soup = BeautifulSoup(response.text, "html.parser")
 
-soup = BeautifulSoup(content, "html.parser")
-a = soup.find_all(name="a")
+# news = soup.find(class_="titleline")
 
-# for anchor in a:
-#     print(anchor.get("href"))
+# for headline in news:
+#     soup.find(name="a").get()
 
-company_website = soup.select_one("p a")
-
-print(soup.select("#name"))
+print(soup.find(class_="titleline"))
