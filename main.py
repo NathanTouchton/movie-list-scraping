@@ -1,15 +1,16 @@
+# from pprint import pprint
 from requests import get
 from bs4 import BeautifulSoup
 
-response = get("https://news.ycombinator.com/news")
+response = get("https://web.archive.org/web/20200518073855/https://www.empireonline.com/movies/features/best-movies-2/")
 soup = BeautifulSoup(response.text, "html.parser")
 
-news = soup.find_all(class_="titleline")
-scores = soup.find_all(class_="score")
+titles = soup.select("main .title")
+titles_list = []
+for item in titles:
+    text = item.get_text()
+    titles_list.insert(0, text)
 
-for headline in news:
-    print(headline.find(name="a").getText())
-    print(headline.find(name="a").get("href"))
-
-for score in scores:
-    print(int(score.getText().split(" ")[0]))
+with open("list.txt", "w+") as file:
+    for movie in titles_list:
+        file.write(movie + "\n")
